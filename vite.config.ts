@@ -19,6 +19,9 @@ export default defineConfig({
       : react(),
     tsconfigPaths(),
   ],
+  ssr: {
+    noExternal: ['react-icons']
+  },
   test: {
     coverage: {
       all: true,
