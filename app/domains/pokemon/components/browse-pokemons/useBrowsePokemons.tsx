@@ -2,9 +2,9 @@ import { type Fetcher, useAsyncValue, useFetcher } from '@remix-run/react';
 import { useState, useEffect } from 'react';
 import type { PaginatedPokemons, Pokemon } from '../../types';
 import type { UseBrowsePokemonsResult, UseFetcherResult } from './types';
-import { isNil } from 'ramda';
+import { isNil, uniq } from 'ramda';
 
-const pokemonsToFetch = 300;
+const pokemonsToFetch = 100;
 
 export const useBrowsePokemons = (): UseBrowsePokemonsResult => {
   const paginatedPokemons = useAsyncValue() as PaginatedPokemons;
@@ -23,13 +23,15 @@ export const useBrowsePokemons = (): UseBrowsePokemonsResult => {
     if (!fetcher.data || isLoading) {
       return;
     }
-
+  
     if (fetcher.data.result.pokemons.length) {
-      const newPokemons = fetcher.data.result.pokemons;
+      const incomingPokemons: Pokemon[] = fetcher.data.result.pokemons;
 
-      setPokemons(newPokemons);
+    setPokemons((prevPokemons) => {
+      return uniq([...prevPokemons, ...incomingPokemons]);
+    });
     }
-  }, [fetcher.data, isLoading, pokemons]);
+  }, [fetcher.data, isLoading, pokemons, setPokemons]);
 
   const loadNext = () => {
     const query = mountQuery(fetcher);
@@ -44,16 +46,19 @@ export const useBrowsePokemons = (): UseBrowsePokemonsResult => {
 
   const mountQuery = (fetcher: Fetcher) => {
     const pageSize = getPageSizeParams(fetcher);
+    const offset = getOffsetParams(fetcher);
 
-    return `?index&pageSize=${pageSize}`;
+    return `?index&pageSize=${pageSize}&offset=${offset}`;
   };
 
   const getPageSizeParams = (fetcher: Fetcher): number => {
-    const pageSize = fetcher.data
-      ? fetcher.data.result.pagination.pageSize + pokemonsToFetch
-      : paginatedPokemons.pagination.pageSize + pokemonsToFetch;
+    return pokemonsToFetch;
+  };
 
-    return pageSize;
+  const getOffsetParams = (fetcher: Fetcher): number => {
+    return fetcher.data
+      ? fetcher.data.result.pagination.offset + pokemonsToFetch
+      : paginatedPokemons.pagination.offset + pokemonsToFetch;
   };
 
   return { pokemons, loadNext, isLoading };
