@@ -1,6 +1,6 @@
 import {
   type MetaFunction,
-  defer,
+  json,
   type LoaderFunctionArgs,
 } from '@vercel/remix';
 import {
@@ -17,16 +17,16 @@ export const meta: MetaFunction = () => {
   return [{ title: 'Pokedex' }, { name: 'Pokemon', content: 'Pokemon' }];
 };
 
-export const loader = ({ request }: LoaderFunctionArgs) => {
+export const loader = async ({ request }: LoaderFunctionArgs) => {
   const url = new URL(request.url);
   const pageSize = url.searchParams.get('pageSize') || '200';
 
-  const pokemonsPromise = retrievePokemons({
+  const pokemons = await retrievePokemons({
     pageSize: Number(pageSize),
   });
 
-  return defer({
-    result: pokemonsPromise,
+  return json({
+    result: pokemons,
   });
 };
 

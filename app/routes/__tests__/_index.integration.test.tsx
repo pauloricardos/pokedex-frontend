@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import { createRemixStub } from '@remix-run/testing';
 import Index from '../_index';
-import { defer } from '@vercel/remix';
+import { json } from '@vercel/remix';
 import { retrievePokemons } from '~/api/services/retrievePokemons.server';
 import { render, screen, waitFor } from '~/tests/helpers/test-utils';
 
@@ -11,9 +11,9 @@ describe('Pokedex index page', () => {
       {
         path: '/',
         Component: Index,
-        loader() {
-          return defer({
-            data: retrievePokemons({ pageSize: 151 }),
+        async loader() {
+          return json({
+            data: await retrievePokemons({ pageSize: 151 }),
           });
         },
       },
