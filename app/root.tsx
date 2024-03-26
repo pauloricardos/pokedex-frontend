@@ -4,8 +4,15 @@ import {
   Outlet,
   Scripts,
   ScrollRestoration,
-} from "@remix-run/react";
+} from '@remix-run/react';
+import type { LinksFunction } from '@vercel/remix';
 import { Analytics } from "@vercel/analytics/react";
+
+import styles from './tailwind.css?url';
+
+export const links: LinksFunction = () => {
+  return [{ rel: 'stylesheet', href: styles }];
+};
 
 export function Layout({ children }: { children: React.ReactNode }) {
   return (
