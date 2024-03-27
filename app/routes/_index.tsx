@@ -19,7 +19,7 @@ export const meta: MetaFunction = () => {
 
 export const loader = async ({ request }: LoaderFunctionArgs) => {
   const url = new URL(request.url);
-  const pageSize = url.searchParams.get('pageSize') || '100';
+  const pageSize = url.searchParams.get('pageSize') || '200';
   const offset = url.searchParams.get('offset') || '0';
 
   const pokemons = await retrievePokemons({
