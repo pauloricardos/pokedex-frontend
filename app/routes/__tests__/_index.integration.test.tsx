@@ -13,7 +13,7 @@ describe('Pokedex index page', () => {
         Component: Index,
         async loader() {
           return json({
-            data: await retrievePokemons({ pageSize: 151 }),
+            data: await retrievePokemons({ pageSize: 200, offset: 0 }),
           });
         },
       },
