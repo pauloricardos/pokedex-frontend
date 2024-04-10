@@ -24,6 +24,7 @@ export const generateFindAllParams = (
 ): FindAllPokemonsParams => {
   const baseValues: FindAllPokemonsParams = {
     pageSize: 151,
+    offset: 100,
   };
 
   return { ...baseValues, ...values };
@@ -35,6 +36,7 @@ export const generateFindAllPokemonsParamsResult = (
   const baseValues: FindAllPokemonsParamsResult = {
     pageSize: 151,
     hasNext: false,
+    offset: 100,
   };
 
   return { ...baseValues, ...values };
