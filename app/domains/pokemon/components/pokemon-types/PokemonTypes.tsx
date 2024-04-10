@@ -1,11 +1,11 @@
 import type { PokemonType } from '../../enums/PokemonTypes';
-import * as useCase from '~/domains/pokemon/use-cases';
 import type { PokemonTypesProps } from './types';
+import { capitalizeFirstLetter } from '../../helpers';
 
 export const PokemonTypes = ({
   pokemonTypes,
 }: PokemonTypesProps): JSX.Element => {
-  const capitalizedPokemonType = useCase.capitalizePokemonFirstLetter;
+  const capitalizePokemonType = capitalizeFirstLetter;
 
   return (
     <div className="flex w-1/2">
@@ -22,7 +22,7 @@ export const PokemonTypes = ({
             />
           </div>
           <p className="text-xs font-medium pl-0 w-3/5 p-1">
-            {capitalizedPokemonType(pokemonType)}
+            {capitalizePokemonType(pokemonType)}
           </p>
         </div>
       ))}

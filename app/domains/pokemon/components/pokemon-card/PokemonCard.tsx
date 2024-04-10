@@ -1,10 +1,11 @@
 import { PokemonTypes } from '../pokemon-types/PokemonTypes';
 import * as useCase from '~/domains/pokemon/use-cases';
 import type { PokemonCardProps } from './types';
+import { capitalizeFirstLetter } from '../../helpers';
 
 export const PokemonCard = ({ pokemon }: PokemonCardProps): JSX.Element => {
   const pokemonPrimaryType = useCase.findPokemonPrimaryType(pokemon.types);
-  const pokemonName = useCase.capitalizePokemonFirstLetter(pokemon.name);
+  const pokemonName = capitalizeFirstLetter(pokemon.name);
   const pokedexEntry = useCase.formatPokedexEntry(pokemon.pokedexEntry);
 
   return (
